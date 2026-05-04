@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cakes | Cakes by Nicole</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header class="main-header">
+    <a class="logo" href="index.html">Cakes<small>BY NICOLE</small></a>
+
+    <form class="search-box" id="cakeSearchForm">
+      <input id="searchInput" type="text" placeholder="Search for products..." />
+      <button type="submit">🔍</button>
+    </form>
+
+    <a class="cart" href="cart.html">
+      🛒 <strong>Shopping Cart</strong>
+      <span id="cartTotal">$0.00</span>
+    </a>
+  </header>
+
+  <main class="cakes-main">
+
+   <div class="product-grid" id="productGrid"></div>
+
+<script>
+const cakes = [
+  { file: "fallcelebfaltline", name: "Fall Celebration Cake", price: "$19.99" , tags: ["flower", "8inch", "seasonal"] },
+  { file: "fallfondant", name: "Fall Fondant Cake", price: "$29.99" , tags: ["white", "8inch", "fondant" , "seasonal"] },
+  { file: "flowercupcakes", name: "16ct Spring Flower Cupcakes", price: "$17.99" , tags: ["colored", "cupcake", "flower", "seasonal"] },
+  { file: "fondantoctopus", name: "Fondant Octopus Cake", price: "$29.99" , tags: ["colored", "8inch", "fondant", "seasonal"] },
+  { file: "fredysforthofjuly", name: "Fourth of July Cake", price: "$19.99" , tags: ["colored", "8inch", "holiday", "toy"] },
+  { file: "fruitpizza", name: "9in Sugar Cookie Fruit Pizza", price: "$16.99" , tags: ["holiday", "fruit", "ncake"] },
+  { file: "genderreveal", name: "Gender Reveal Cake", price: "$19.99" , tags: ["white", "8inch", "draw"] },
+  { file: "goldenmom", name: "Golden Mothers Day Cake", price: "$12.99" , tags: ["flower", "8inch", "white", "holiday"] },
+
+  { file: "gonefishin", name: "Gone Fishin Cake", price: "$39.99" , tags: ["colored", "1/4Sheet", "birthday", "fondant", "toy"] },
+  { file: "grandmabirthday", name: "Grandma Birthday Cake", price: "$24.99" , tags: ["white", "1/4Sheet", "birthday", "flower"] },
+  { file: "greenpink10'", name: "Green Pink & YellowCake", price: "$34.99" , tags: ["colored", "10inch"] },
+  { file: "haloweencookies", name: "12in Halloween Cookies", price: "$16.99" , tags: ["colored", "ncake", "holiday", "draw"] },
+  { file: "harrypotter", name: "Harry Potter Cake", price: "$19.99" , tags: ["colored", "8inch", "birthday"] },
+  { file: "heartwflowers", name: "Heart Cake with Flowers", price: "$44.99" , tags: ["white", "10inch", "flower", "heart"] },
+  { file: "hedghogfondant", name: "Hedgehog Fondant Cake", price: "$39.99" , tags: ["colored", "8inch", "fondant", "seasonal"] },
+  { file: "hotwheels", name: "Hot Wheels Cake", price: "$55.99" , tags: ["colored", "birthday", "photo", "1/2sheet"] },
+
+  { file: "icecreamcupcakes", name: "1/8 Sheet with 6 cupcakes Ice Cream Cake", price: "$19.99" , tags: ["cupcake", "white", "toy", "seasonal"] },
+  { file: "kendracat", name: "Stars & Cat Cake", price: "$19.99" , tags: ["colored", "8inch", "birthday", "draw"] },
+  { file: "kendraeighteen", name: "Eighteenth Birthday Cake", price: "$19.99" , tags: ["colored", "8inch", "birthday"] },
+  { file: "ladybug", name: "Egg Shaped Ladybug Cake", price: "$10.99" , tags: ["colored", "draw", "seasonal"] },
+  { file: "lemon", name: "Lemon Cake", price: "$19.99" , tags: ["colored", "8inch"] },
+  { file: "lepordheart", name: "Leopard Print Heart Cake", price: "$55.99" , tags: ["colored", "10inch", "birthday", "heart", "draw"] },
+  { file: "minecraft", name: "Minecraft Cake", price: "$29.99" , tags: ["colored", "1/4Sheet", "birthday", "toy", "draw"] },
+  { file: "mombirthday", name: "Mom Birthday Cake", price: "$24.99" , tags: ["1/4Sheet", "birthday", "flower"] },
+
+  { file: "raindeerfondant", name: "Reindeer Fondant Cake", price: "$34.99" , tags: ["white", "8inch", "holiday", "fondant"] },
+  { file: "blackheart", name: "Black Heart Cake", price: "$39.99" , tags: ["colored", "10inch", "heart"] },
+  { file: "babyoreo", name: "Baby Oreo Cake", price: "$10.99" , tags: [ "5in"] },
+  { file: "cranberycake", name: "3 layer Cranberry Cake", price: "$54.99" , tags: ["white", "10inch", "fruit"] },
+
+  { file: "5'heartpink2", name: "Pink Heart Cake", price: "$12.99", tags: ["heart", "colored", "5in"] },
+  { file: "8'fudge", name: "Fudge Cake", price: "$14.99", tags: ["8inch"] },
+  { file: "9infruittart", name: "9in Fruit Tart", price: "$16.99", tags: ["fruit", "ncake"] },
+  { file: "10'celeb", name: "Winter Celebration Cake", price: "$29.99", tags: ["10inch", "white", "seasonal"] },
+  { file: "10'pumpkin", name: "Pumpkin Cake", price: "$29.99", tags: ["10inch", "seasonal", "colored", "draw"] },
+
+  { file: "babydino", name: "Baby Dino Cake", price: "12.99", tags: ["draw", "colored", "5in"] },
+  { file: "bananas", name: "Curious George Banana Cake", price: "$35.99", tags: ["1/4Sheet", "white", "draw", "photo", "birthday"] },
+  { file: "beach", name: "Beach Cake", price: "$29.99", tags: ["colored", "seasonal", "1/4Sheet", "draw"] },
+  { file: "berrelrainbow", name: "Rainbow Barrel Cake", price: "$34.99", tags: ["colored", "birthday", "5in"] },
+
+  { file: "birthdaycupcake", name: "Birthday Cupcake Cake", price: "$19.99", tags: ["birthday", "cupcake", "colored"] },
+  { file: "birthdayroses", name: "Birthday Roses Cake", price: "$24.99", tags: ["birthday", "flower", "white", "8inch"] },
+  { file: "bsu", name: "BSU Cake", price: "$29.99", tags: ["colored", "draw", "1/2sheet"] },
+  { file: "chickceleb", name: "Chick Celebration Cake", price: "$9.99", tags: ["colored", "holiday", "8inch", "draw"] },
+  { file: "chirchbaby", name: "Church Baby Cake", price: "$24.99", tags: ["white", "flower", "1/2sheet", "toy"] },
+
+  { file: "chocdrizceleb", name: "Chocolate Drizzle Celebration Cake", price: "$24.99", tags: ["8inch", "colored"] },
+  { file: "christmasapples", name: "Christmas Apples", price: "$16.99", tags: ["holiday", "fruit", "ncake", "toy"] },
+  { file: "christmasgingerbread", name: "Christmas Gingerbread", price: "$16.99", tags: ["holiday", "8inch", "draw"] },
+  { file: "christmastres", name: "Christmas Tres Leches Cake", price: "$29.99", tags: ["holiday", "white", "1/4Sheet", "fruit"] },
+  { file: "churchcup", name: "Church Cup and Cross Cake", price: "$24.99", tags: ["flower", "white", "1/4Sheet", "draw"] },
+
+  { file: "conecake", name: "Cone Cake", price: "$19.99", tags: ["white", "8inch"] },
+  { file: "cowboycakes", name: "Cowboy Cake", price: "$29.99", tags: ["white", "5in", "8inch", "draw"] },
+  { file: "cowgirlcakes", name: "Cowgirl Cake", price: "$29.99", tags: ["birthday", "white", "5in", "8inch", "draw"] },
+  { file: "crab5'", name: "5in Crab Cake", price: "$19.99", tags: ["colored", "5in", "seasonal", "draw"] },
+  { file: "easterceleb", name: "Easter Celebration Cake", price: "$24.99", tags: ["holiday", "colored", "8inch", "toy"] },
+
+  { file: "eastercupcake", name: "Easter Cupcake", price: "$4.99", tags: ["holiday", "cupcake", "colored", "flower", "toy"] },
+  { file: "fallbaby", name: "Fall Baby Cake", price: "$24.99", tags: ["seasonal", "white", "5in"] },
+  { file: "monsslice", name: "Mothers Slice Cake", price: "$10.99", tags: ["white","flower", "8inch"] },
+  { file: "mrsidahoamerica", name: "Mrs Idaho America Cake", price: "$34.99", tags: ["photo", "white", "wedding", "fondant"] },
+  { file: "newyearsapples", name: "New Years Apples", price: "$16.99", tags: ["holiday", "fruit", "ncake", "toy"] },
+
+  { file: "newyearscookie", name: "New Years Cookie Cake", price: "$16.99", tags: ["holiday", "ncake", "draw"] },
+  { file: "octocookie", name: "Octopus Cookie Cake", price: "$16.99", tags: ["colored", "ncake", "seasonal", "draw"] },
+  { file: "olderthandirt", name: "Older Than Dirt Cake", price: "$24.99", tags: ["birthday", "colored", "8inch", "draw"] },
+  { file: "orange", name: "Orange Cake", price: "$19.99", tags: ["8inch", "colored"] },
+  { file: "Oreodl", name: "Oreo Cake", price: "$24.99", tags: ["colored", "8inch"] },
+
+  { file: "otterfondant", name: "Otter Fondant Cake", price: "$34.99", tags: ["fondant", "colored", "8inch", "seasonal","flower", "draw"] },
+  { file: "piciesbaby", name: "Pisces Baby Cake", price: "$24.99", tags: ["birthday", "colored", "heart", "8inch"] },
+  { file: "pinkandyellowceleb", name: "Pink and Yellow Celebration Cake", price: "$24.99", tags: ["white", "8inch"] },
+  { file: "pinkbirthday", name: "Pink Birthday Cake", price: "$24.99", tags: ["birthday", "colored", "10inch"] },
+  { file: "pinkflowergreenceleb", name: "Pink Flower Green Celebration Cake", price: "$24.99", tags: ["flower", "white", "birthday", "8inch"] },
+
+  { file: "pinkgreenbirthday", name: "Pink Green Birthday Cake", price: "$24.99", tags: ["birthday", "colored", "flower", "8inch"] },
+  { file: "pinkmonster", name: "Pink Monster Cake", price: "$24.99", tags: ["colored", "5in"] },
+  { file: "plane8'tres", name: "Plain Tres Leches Cake", price: "$29.99", tags: ["8inch", "white"] },
+  { file: "pumpkinbaby", name: "Pumpkin Baby Cake", price: "$9.99", tags: ["holiday", "colored", "5in", "draw"] },
+  { file: "pumpkinceleb", name: "Pumpkin Celebration Cake", price: "$24.99", tags: ["flower", "colored", "8inch", "seasonal", "draw"] },
+
+  { file: "purplebutterfly", name: "Purple Butterfly Cake", price: "$24.99", tags: ["colored", "8inch", "toy"] },
+  { file: "purpleheart", name: "Purple Heart Cake", price: "$29.99", tags: ["heart", "colored", "flower", "8inch"] },
+  { file: "repunzlbirthday", name: "Rapunzel Birthday Cake", price: "$29.99", tags: ["birthday", "white", "flower", "8inch"] },
+  { file: "second8'tres", name: "Tres Leches Cake", price: "$29.99", tags: ["8inch", "white", "fruit", "8inch"] },
+  { file: "secondfallfondant", name: "Fall Fondant Cake", price: "$29.99", tags: ["fondant", "white", "8inch", "seasonal"] },
+
+  { file: "semesestreet", name: "Sesame Street Cake", price: "$29.99", tags: ["birthday", "1/4sheet", "draw"] },
+  { file: "sillymonster", name: "Silly Monster Cake", price: "$24.99", tags: ["colored", "5in", "seasonal"] },
+  { file: "slayqueen", name: "Slay Queen Cake", price: "$24.99", tags: ["draw", "white", "8inch"] },
+  { file: "smearceleb", name: "Smear Celebration Cake", price: "$24.99", tags: ["flower", "colored", "10inch"] },
+  { file: "snipsniphooray", name: "Snip Snip Hooray Cake", price: "$24.99", tags: ["draw", "colored", "8inch"] },
+
+  { file: "spidermancupcake", name: "Spiderman Cupcake Cake", price: "$24.99", tags: ["cupcake", "colored", "toy"] },
+  { file: "spongebob", name: "Spongebob Cake", price: "$29.99", tags: ["birthday", "colored", "draw", "8inch", "flower"] },
+  { file: "springbirthday", name: "Spring Birthday Cake", price: "$24.99", tags: ["birthday", "flower", "colored" , "seasonal", "1/4sheet"] },
+  { file: "springducks", name: "Spring Ducks Cake", price: "$24.99", tags: ["colored", "8inch", "seasonal", "draw", "flower"] },
+  { file: "squaresunflower", name: "Square Sunflower Cake", price: "$29.99", tags: ["flower", "white", "seasonal"] },
+
+  { file: "stitch", name: "Stitch Cake", price: "$29.99", tags: ["colored", "draw", "1/4sheet"] },
+  { file: "taco", name: "Taco Cake", price: "$24.99", tags: ["colored", "holiday", "draw"] },
+  { file: "tealwedding", name: "Teal Wedding Cake", price: "$49.99", tags: ["wedding", "white", "flower"] },
+  { file: "toffeecrunch", name: "Toffee Crunch Cake", price: "$24.99", tags: ["colored", "8inch"] },
+  { file: "tres", name: "Tres Leches Cake", price: "$29.99", tags: ["white", "8inch", "fruit"] },
+
+  { file: "Valintinesfondant", name: "Valentines Fondant Cake", price: "$34.99", tags: ["holiday", "fondant", "white", "8inch"] },
+  { file: "whitewedding", name: "White Wedding Cake", price: "$49.99", tags: ["wedding", "white"] },
+  { file: "yelloworangepink10in", name: "Yellow Orange Pink 10in Cake", price: "$34.99", tags: ["10inch", "colored"] }
+];
+
+const productGrid = document.getElementById("productGrid");
+
+productGrid.innerHTML = cakes.map(function(cake) {
+  return `
+    <div class="product-card" data-tags="${cake.tags.join(' ')}">
+      <div class="cake-icon">
+        <img src="images/${cake.file}.png" alt="${cake.name}">
+      </div>
+      <h3>${cake.name}</h3>
+      <p>${cake.price}</p>
+      <button type="button">Add to Cart</button>
+    </div>
+  `;
+}).join("");
+</script>
+  </main>
+
+  <footer>
+    <p>© 2026 Cakes by Nicole | Fresh cakes for every occasion</p>
+  </footer>
+
+<div id="imageModal" class="image-modal">
+  <img id="modalImage" src="" alt="Full Size Cake">
+</div>
+
+<script>
+function getCart() {
+  return JSON.parse(localStorage.getItem("cakesByNicoleCart")) || [];
+}
+
+function saveCart(cart) {
+  localStorage.setItem("cakesByNicoleCart", JSON.stringify(cart));
+}
+
+function getCartTotal() {
+  let total = 0;
+
+  getCart().forEach(function (item) {
+    total += Number(item.price.replace("$", ""));
+  });
+
+  return total;
+}
+
+function updateCartTotal() {
+  const cartTotal = document.getElementById("cartTotal");
+
+  if (cartTotal) {
+    cartTotal.textContent = "$" + getCartTotal().toFixed(2);
+  }
+}
+
+function addToCart(itemClicked) {
+  let card;
+
+  if (typeof itemClicked === "string") {
+    document.querySelectorAll(".product-card").forEach(function (oneCard) {
+      const name = oneCard.querySelector("h3").textContent.trim();
+
+      if (name === itemClicked) {
+        card = oneCard;
+      }
+    });
+  } else {
+    card = itemClicked.closest(".product-card");
+  }
+
+  if (!card) {
+    return;
+  }
+
+const img = card.querySelector(".cake-icon img");
+
+const item = {
+  name: card.querySelector("h3").textContent.trim(),
+  price: card.querySelector("p").textContent.trim(),
+  image: img ? img.getAttribute("src") : "",
+  icon: card.querySelector(".cake-icon").textContent.trim()
+};
+
+  const cart = getCart();
+  cart.push(item);
+  saveCart(cart);
+  updateCartTotal();
+}
+
+document.querySelectorAll(".product-card button").forEach(function (button) {
+  button.addEventListener("click", function () {
+    addToCart(button);
+  });
+});
+
+function filterCards(searchText) {
+  const search = (searchText || "").toLowerCase().trim();
+  const cards = document.querySelectorAll(".product-card");
+
+  cards.forEach(function (card) {
+    const name = card.querySelector("h3").textContent.toLowerCase();
+    const tags = card.dataset.tags || "";
+    const searchableText = name + " " + tags;
+
+    if (
+      search === "" ||
+      search === "all cakes" ||
+      searchableText.includes(search)
+    ) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
+}
+
+const homeSearchForm = document.getElementById("homeSearchForm");
+const homeSearchInput = document.getElementById("homeSearchInput");
+
+if (homeSearchForm && homeSearchInput) {
+  homeSearchForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    window.location.href = "cakes.html?search=" + encodeURIComponent(homeSearchInput.value || "All Cakes");
+  });
+}
+
+const cakeSearchForm = document.getElementById("cakeSearchForm");
+const searchInput = document.getElementById("searchInput");
+
+if (cakeSearchForm && searchInput) {
+  cakeSearchForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    filterCards(searchInput.value);
+  });
+
+  searchInput.addEventListener("input", function () {
+    filterCards(searchInput.value);
+  });
+
+  const params = new URLSearchParams(window.location.search);
+  const search = params.get("search") || "All Cakes";
+
+  searchInput.value = search;
+  filterCards(search);
+}
+
+const departmentButton = document.getElementById("departmentButton");
+const departmentMenu = document.getElementById("departmentMenu");
+
+if (departmentButton && departmentMenu) {
+  departmentButton.addEventListener("click", function () {
+    departmentMenu.classList.toggle("show");
+  });
+}
+
+function renderCart() {
+  const cartItems = document.getElementById("cartItems");
+  const cartSummary = document.getElementById("cartSummary");
+
+  if (!cartItems || !cartSummary) {
+    return;
+  }
+
+  const cart = getCart();
+
+  if (cart.length === 0) {
+    cartItems.innerHTML = '<p class="empty-cart">Your cart is empty.</p>';
+  } else {
+    cartItems.innerHTML = cart.map(function (item, index) {
+      return `
+       <div class="cart-item">
+        <div class="cart-item-image">
+          ${item.image ? `<img src="${item.image}" alt="${item.name}">` : item.icon}
+        </div>
+
+        <div>
+          <h3>${item.name}</h3>
+        </div>
+
+        <p>${item.price}</p>
+
+        <button class="remove-button" type="button" onclick="removeItem(${index})">Remove</button>
+      </div>
+      `;
+    }).join("");
+  }
+
+  cartSummary.textContent = "Total: $" + getCartTotal().toFixed(2);
+}
+
+function removeItem(index) {
+  const cart = getCart();
+  cart.splice(index, 1);
+  saveCart(cart);
+  renderCart();
+  updateCartTotal();
+}
+
+const checkoutButton = document.getElementById("checkoutButton");
+
+if (checkoutButton) {
+  checkoutButton.addEventListener("click", function () {
+    const cart = getCart();
+
+    if (cart.length === 0) {
+      alert("Please Add a Product to your Cart First!");
+      return;
+    }
+
+    saveCart([]);
+
+    document.getElementById("cartItems").innerHTML =
+      '<p class="order-message">Order completed! 🎉</p>';
+
+    document.getElementById("cartSummary").style.display = "none";
+    checkoutButton.style.display = "none";
+
+    updateCartTotal();
+  });
+}
+
+renderCart();
+updateCartTotal();
+
+const modal = document.getElementById("imageModal");
+const modalImg = document.getElementById("modalImage");
+
+document.querySelectorAll(".cake-icon img").forEach(function(img) {
+  img.addEventListener("click", function() {
+    modal.style.display = "flex";
+    modalImg.src = this.src;
+  });
+});
+
+/* Click anywhere to close */
+modal.addEventListener("click", function() {
+  modal.style.display = "none";
+});
+</script>
+<a href="index.html" class="back-home-button">Back to Home</a>
+
+</body>
+</html>
