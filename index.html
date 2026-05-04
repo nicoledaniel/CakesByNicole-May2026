@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cakes by Nicole</title>
+  <link rel="stylesheet" href="home.css" />
+</head>
+<body>
+
+  <header class="main-header">
+    <a class="logo" href="index.html">Cakes<small>BY NICOLE</small></a>
+
+    <form class="search-box" id="homeSearchForm">
+      <input id="homeSearchInput" type="text" placeholder="Search for products..." />
+      <button type="submit">🔍</button>
+    </form>
+
+    <a class="cart" href="cart.html">
+      🛒 <strong>Shopping Cart</strong>
+      <span id="cartTotal">$0.00</span>
+    </a>
+  </header>
+
+  <nav class="nav-bar">
+    <button class="department-title" id="departmentButton" type="button">☰ All Departments</button>
+
+<div class="nav-links">
+  <a href="cakes.html?search=5in">5in Cakes</a>
+  <a href="cakes.html?search=8inch">8in Cakes</a>
+  <a href="cakes.html?search=10inch">10in Cakes</a>
+  <a href="cakes.html?search=1/4Sheet">1/4 Sheet Cakes</a>
+  <a href="cakes.html?search=1/2sheet">1/2 Sheet Cakes</a>
+  <a href="cakes.html?search=cupcake">Cupcakes</a>
+  <a href="cakes.html?search=ncake">Non Cakes</a>
+</div>
+  </nav>
+
+  <main class="page-layout">
+ <aside class="sidebar" id="departmentMenu">
+  <a href="cakes.html?search=wedding">Wedding Cakes</a>
+  <a href="cakes.html?search=birthday">Birthday Cakes</a>
+  <a href="cakes.html?search=heart">Heart Cakes</a>
+  <a href="cakes.html?search=holiday">Holiday Cakes</a>
+  <a href="cakes.html?search=seasonal">Seasonal Cakes</a>
+  <a href="cakes.html?search=flower">Flower Cakes</a>
+  <a href="cakes.html?search=fruit">Fruit Topped</a>
+  <a href="cakes.html?search=photo">Photo Cakes</a>
+  <a href="cakes.html?search=toy">Toys and Rings</a>
+  <a href="cakes.html?search=fondant">Fondant Cakes</a>
+  <a href="cakes.html?search=draw">Drawings</a>
+  <a href="cakes.html?search=white">White iced Cakes</a>
+  <a href="cakes.html?search=colored">Colored iced Cakes</a>
+  <a href="cakes.html?search=All%20Cakes">All Cakes</a>
+</aside>
+
+    <section class="hero">
+      <div class="hero-text">
+        <p class="deal">Free Delivery on Orders Over $50!</p>
+        <h1>Your Trusted Online Brand for Cake Delivery</h1>
+        <p>Fresh, homemade, and professional cakes made for every celebration.</p>
+        <a class="orange-button" href="cakes.html?search=All%20Cakes">Shop Now</a>
+      </div>
+
+      <div class="cake-display">
+  <img src="images/heartwflowers.png" alt="Cake" width="350">
+</div>
+    </section>
+  </main>
+
+  <section class="products-section">
+    <h2 class="section-title">Featured Cakes</h2>
+    <p class="section-message">Check out out best sellers and be the first to try the new arrivals!</p>
+
+    <div class="product-grid">
+
+  <div class="product-card">
+    <div class="cake-icon">
+      <img src="images/raindeerfondant.png" alt="raindeerfondant">
+    </div>
+    <h3>DL 8" Reindeer Fondant</h3>
+    <p>$34.99</p>
+    <button type="button" class="add-cart-button">Add to Cart</button>
+  </div>
+
+  <div class="product-card">
+    <div class="cake-icon">
+      <img src="images/blackheart.png" alt="blackheart">
+    </div>
+    <h3>DL 10in Black Heart</h3>
+    <p>$39.99</p>
+    <button type="button" class="add-cart-button">Add to Cart</button>
+  </div>
+
+  <div class="product-card">
+    <div class="cake-icon">
+      <img src="images/babyoreo.png" alt="babyoreo">
+    </div>
+    <h3>DL 5in Baby Oreo</h3>
+    <p>$10.99</p>
+    <button type="button" class="add-cart-button">Add to Cart</button>
+  </div>
+
+  <div class="product-card">
+    <div class="cake-icon">
+      <img src="images/cranberycake.png" alt="cranberycake">
+    </div>
+    <h3>10in Cranberry Cake</h3>
+    <p>$54.99</p>
+    <button type="button" class="add-cart-button">Add to Cart</button>
+  </div>
+
+</div>
+  </section>
+
+  <footer>
+    <p>© 2026 Cakes by Nicole | Fresh cakes for every occasion</p>
+  </footer>
+
+<div id="imageModal" class="image-modal">
+  <img id="modalImage" src="" alt="Full Size Cake">
+</div>
+
+  <script>
+function getCart() {
+  return JSON.parse(localStorage.getItem("cakesByNicoleCart")) || [];
+}
+
+function saveCart(cart) {
+  localStorage.setItem("cakesByNicoleCart", JSON.stringify(cart));
+}
+
+function getCartTotal() {
+  let total = 0;
+
+  getCart().forEach(function (item) {
+    total += Number(item.price.replace("$", ""));
+  });
+
+  return total;
+}
+
+function updateCartTotal() {
+  const cartTotal = document.getElementById("cartTotal");
+
+  if (cartTotal) {
+    cartTotal.textContent = "$" + getCartTotal().toFixed(2);
+  }
+}
+
+function addToCart(itemClicked) {
+  let card;
+
+  if (typeof itemClicked === "string") {
+    document.querySelectorAll(".product-card").forEach(function (oneCard) {
+      const name = oneCard.querySelector("h3").textContent.trim();
+
+      if (name === itemClicked) {
+        card = oneCard;
+      }
+    });
+  } else {
+    card = itemClicked.closest(".product-card");
+  }
+
+  if (!card) {
+    return;
+  }
+
+const img = card.querySelector(".cake-icon img");
+
+const item = {
+  name: card.querySelector("h3").textContent.trim(),
+  price: card.querySelector("p").textContent.trim(),
+  image: img ? img.getAttribute("src") : "",
+  icon: card.querySelector(".cake-icon").textContent.trim()
+};
+
+  const cart = getCart();
+  cart.push(item);
+  saveCart(cart);
+  updateCartTotal();
+}
+
+document.querySelectorAll(".product-card button").forEach(function (button) {
+  button.addEventListener("click", function () {
+    addToCart(button);
+  });
+});
+
+function filterCards(searchText) {
+  const search = (searchText || "").toLowerCase().trim();
+  const cards = document.querySelectorAll(".product-card");
+
+  cards.forEach(function (card) {
+    const name = card.querySelector("h3").textContent.toLowerCase();
+
+    if (search === "" || search === "all cakes" || name.includes(search)) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
+}
+
+const homeSearchForm = document.getElementById("homeSearchForm");
+const homeSearchInput = document.getElementById("homeSearchInput");
+
+if (homeSearchForm && homeSearchInput) {
+  homeSearchForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    window.location.href = "cakes.html?search=" + encodeURIComponent(homeSearchInput.value || "All Cakes");
+  });
+}
+
+const cakeSearchForm = document.getElementById("cakeSearchForm");
+const searchInput = document.getElementById("searchInput");
+
+if (cakeSearchForm && searchInput) {
+  cakeSearchForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    filterCards(searchInput.value);
+  });
+
+  searchInput.addEventListener("input", function () {
+    filterCards(searchInput.value);
+  });
+
+  const params = new URLSearchParams(window.location.search);
+  const search = params.get("search") || "All Cakes";
+
+  searchInput.value = search;
+  filterCards(search);
+}
+
+const departmentButton = document.getElementById("departmentButton");
+const departmentMenu = document.getElementById("departmentMenu");
+
+if (departmentButton && departmentMenu) {
+  departmentButton.addEventListener("click", function () {
+    departmentMenu.classList.toggle("show");
+  });
+}
+
+function renderCart() {
+  const cartItems = document.getElementById("cartItems");
+  const cartSummary = document.getElementById("cartSummary");
+
+  if (!cartItems || !cartSummary) {
+    return;
+  }
+
+  const cart = getCart();
+
+  if (cart.length === 0) {
+    cartItems.innerHTML = '<p class="empty-cart">Your cart is empty.</p>';
+  } else {
+    cartItems.innerHTML = cart.map(function (item, index) {
+      return `
+        <div class="cart-item">
+          <div class="cart-item-icon">${item.icon}</div>
+          <div>
+            <h3>${item.name}</h3>
+          </div>
+          <p>${item.price}</p>
+          <button class="remove-button" type="button" onclick="removeItem(${index})">Remove</button>
+        </div>
+      `;
+    }).join("");
+  }
+
+  cartSummary.textContent = "Total: $" + getCartTotal().toFixed(2);
+}
+
+function removeItem(index) {
+  const cart = getCart();
+  cart.splice(index, 1);
+  saveCart(cart);
+  renderCart();
+  updateCartTotal();
+}
+
+const checkoutButton = document.getElementById("checkoutButton");
+
+if (checkoutButton) {
+  checkoutButton.addEventListener("click", function () {
+    const cart = getCart();
+
+    if (cart.length === 0) {
+      alert("Please Add a Product to your Cart First!");
+      return;
+    }
+
+    saveCart([]);
+
+    document.getElementById("cartItems").innerHTML =
+      '<p class="order-message">Order completed! 🎉</p>';
+
+    document.getElementById("cartSummary").style.display = "none";
+    checkoutButton.style.display = "none";
+
+    updateCartTotal();
+  });
+}
+
+renderCart();
+updateCartTotal();
+
+const modal = document.getElementById("imageModal");
+const modalImg = document.getElementById("modalImage");
+
+document.querySelectorAll(".cake-icon img").forEach(function(img) {
+  img.addEventListener("click", function() {
+    modal.style.display = "flex";
+    modalImg.src = this.src;
+  });
+});
+
+/* Click anywhere to close */
+modal.addEventListener("click", function() {
+  modal.style.display = "none";
+});
+</script>
+
+</body>
+</html>
